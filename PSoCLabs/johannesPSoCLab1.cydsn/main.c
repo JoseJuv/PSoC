@@ -8,6 +8,11 @@
  *
  * ========================================
 */
+
+// TX00DB04-3009, 10/4/2025
+// If button is pressed -> blink and increment counter
+// If received character -> transmit counter value
+
 #include "project.h"
 #include "UART.h"
 #include <stdio.h> 
@@ -36,15 +41,9 @@ int main(void)
         }
         if (UART_GetRxBufferSize() > 0)
         {
-            uint8 received = UART_GetChar();
-            if (received >= 32 && received <= 126) // ASCII printable characters
-            {
-                sprintf(buffer, "%u\r\n", counter);
-                UART_PutString(buffer);
-            }
+            sprintf(buffer, "%u\r\n", counter);
+            UART_PutString(buffer);
         }
         
     }
 }
-
-/* [] END OF FILE */
