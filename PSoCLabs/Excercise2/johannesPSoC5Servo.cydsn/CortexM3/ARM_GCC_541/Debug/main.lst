@@ -1,0 +1,1369 @@
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.my_button_isr,"ax",%progbits
+  20              		.align	2
+  21              		.global	my_button_isr
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	my_button_isr, %function
+  25              	my_button_isr:
+  26              	.LFB66:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright Johannes Juvonen, Metropolia UAS, Finland, 2025
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CC-NA-SA 4.0
+   8:main.c        ****  *
+   9:main.c        ****  * ========================================
+  10:main.c        **** */
+  11:main.c        **** 
+  12:main.c        **** // TX00DB04-3009, 17/4/2025
+  13:main.c        **** 
+  14:main.c        **** #include "project.h"
+  15:main.c        **** 
+  16:main.c        **** // For button debouncing
+  17:main.c        **** #define DEBOUNCE_TIME_MS 200
+  18:main.c        **** uint16_t ms_counter = 0;
+  19:main.c        **** uint16_t milliseconds(void);
+  20:main.c        **** 
+  21:main.c        **** // ISRs and flags
+  22:main.c        **** CY_ISR_PROTO(my_button_isr);
+  23:main.c        **** CY_ISR_PROTO(my_PWM_isr);
+  24:main.c        **** volatile uint8_t button_flag = 0;
+  25:main.c        **** volatile uint8_t pwm_flag = 0;
+  26:main.c        **** 
+  27:main.c        **** // Servo positions and turn speed
+  28:main.c        **** uint16_t servo_positions[5] = {1000, 1250, 1500, 1750, 2000};
+  29:main.c        **** uint8_t current_position = 2;
+  30:main.c        **** uint8_t turnSpeed = 5;
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 2
+
+
+  31:main.c        **** uint16_t targetPW = 1500;
+  32:main.c        **** uint16_t actualPW = 1500;
+  33:main.c        **** void UpdateServoPWM(uint16_t *actualPW, uint16_t targetPW, uint8_t speed);
+  34:main.c        **** 
+  35:main.c        **** 
+  36:main.c        **** int main(void) {
+  37:main.c        ****     CyGlobalIntEnable;
+  38:main.c        **** 
+  39:main.c        ****     PWM_1_Start();
+  40:main.c        ****     Button_isr_StartEx(my_button_isr);
+  41:main.c        ****     PWM_ctrl_StartEx(my_PWM_isr);
+  42:main.c        ****     PWM_1_WriteCompare(actualPW);
+  43:main.c        **** 
+  44:main.c        ****     for(;;) {
+  45:main.c        ****         if (button_flag) {
+  46:main.c        ****             button_flag = 0;
+  47:main.c        ****             if (milliseconds() >= DEBOUNCE_TIME_MS) {
+  48:main.c        ****                 ms_counter = 0;
+  49:main.c        ****                 current_position = (current_position + 1) % 5;
+  50:main.c        ****                 targetPW = servo_positions[current_position];
+  51:main.c        ****             }    
+  52:main.c        ****         }        
+  53:main.c        ****         
+  54:main.c        ****         if(pwm_flag){
+  55:main.c        ****             pwm_flag = 0;
+  56:main.c        ****             ms_counter += 20;
+  57:main.c        ****             UpdateServoPWM(&actualPW, targetPW, turnSpeed);
+  58:main.c        ****             PWM_1_WriteCompare(actualPW);
+  59:main.c        ****         }    
+  60:main.c        ****     }
+  61:main.c        **** }
+  62:main.c        **** 
+  63:main.c        **** void UpdateServoPWM(uint16_t *actualPW, uint16_t targetPW, uint8_t speed) {
+  64:main.c        ****     if (*actualPW < targetPW) {
+  65:main.c        ****         *actualPW += speed;
+  66:main.c        ****         if (*actualPW > targetPW) {
+  67:main.c        ****             *actualPW = targetPW;
+  68:main.c        ****         }
+  69:main.c        **** 
+  70:main.c        ****     } else if (*actualPW > targetPW) {
+  71:main.c        ****         *actualPW -= speed;
+  72:main.c        ****         if (*actualPW < targetPW) {
+  73:main.c        ****             *actualPW = targetPW;
+  74:main.c        ****         }
+  75:main.c        ****     }
+  76:main.c        **** }
+  77:main.c        **** 
+  78:main.c        **** uint16_t milliseconds(void) {
+  79:main.c        ****     return ms_counter;
+  80:main.c        **** }
+  81:main.c        **** 
+  82:main.c        **** CY_ISR(my_button_isr) {
+  28              		.loc 1 82 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 3
+
+
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  83:main.c        ****     Button_ClearInterrupt();
+  36              		.loc 1 83 0
+  37 0002 FFF7FEFF 		bl	Button_ClearInterrupt
+  38              	.LVL0:
+  84:main.c        ****     button_flag = 1;
+  39              		.loc 1 84 0
+  40 0006 0122     		movs	r2, #1
+  41 0008 014B     		ldr	r3, .L3
+  42 000a 1A70     		strb	r2, [r3]
+  43 000c 08BD     		pop	{r3, pc}
+  44              	.L4:
+  45 000e 00BF     		.align	2
+  46              	.L3:
+  47 0010 00000000 		.word	.LANCHOR0
+  48              		.cfi_endproc
+  49              	.LFE66:
+  50              		.size	my_button_isr, .-my_button_isr
+  51              		.section	.text.my_PWM_isr,"ax",%progbits
+  52              		.align	2
+  53              		.global	my_PWM_isr
+  54              		.thumb
+  55              		.thumb_func
+  56              		.type	my_PWM_isr, %function
+  57              	my_PWM_isr:
+  58              	.LFB67:
+  85:main.c        **** }
+  86:main.c        **** 
+  87:main.c        **** CY_ISR(my_PWM_isr) {
+  59              		.loc 1 87 0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63 0000 08B5     		push	{r3, lr}
+  64              		.cfi_def_cfa_offset 8
+  65              		.cfi_offset 3, -8
+  66              		.cfi_offset 14, -4
+  88:main.c        ****     (void)PWM_1_ReadStatusRegister();
+  67              		.loc 1 88 0
+  68 0002 FFF7FEFF 		bl	PWM_1_ReadStatusRegister
+  69              	.LVL1:
+  89:main.c        ****     pwm_flag++;
+  70              		.loc 1 89 0
+  71 0006 034A     		ldr	r2, .L7
+  72 0008 5378     		ldrb	r3, [r2, #1]	@ zero_extendqisi2
+  73 000a 0133     		adds	r3, r3, #1
+  74 000c DBB2     		uxtb	r3, r3
+  75 000e 5370     		strb	r3, [r2, #1]
+  76 0010 08BD     		pop	{r3, pc}
+  77              	.L8:
+  78 0012 00BF     		.align	2
+  79              	.L7:
+  80 0014 00000000 		.word	.LANCHOR0
+  81              		.cfi_endproc
+  82              	.LFE67:
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 4
+
+
+  83              		.size	my_PWM_isr, .-my_PWM_isr
+  84              		.section	.text.UpdateServoPWM,"ax",%progbits
+  85              		.align	2
+  86              		.global	UpdateServoPWM
+  87              		.thumb
+  88              		.thumb_func
+  89              		.type	UpdateServoPWM, %function
+  90              	UpdateServoPWM:
+  91              	.LFB64:
+  63:main.c        ****     if (*actualPW < targetPW) {
+  92              		.loc 1 63 0
+  93              		.cfi_startproc
+  94              		@ args = 0, pretend = 0, frame = 0
+  95              		@ frame_needed = 0, uses_anonymous_args = 0
+  96              		@ link register save eliminated.
+  97              	.LVL2:
+  64:main.c        ****         *actualPW += speed;
+  98              		.loc 1 64 0
+  99 0000 0388     		ldrh	r3, [r0]
+ 100 0002 8B42     		cmp	r3, r1
+ 101 0004 06D2     		bcs	.L10
+  65:main.c        ****         if (*actualPW > targetPW) {
+ 102              		.loc 1 65 0
+ 103 0006 1344     		add	r3, r3, r2
+ 104 0008 9BB2     		uxth	r3, r3
+ 105 000a 0380     		strh	r3, [r0]	@ movhi
+  66:main.c        ****             *actualPW = targetPW;
+ 106              		.loc 1 66 0
+ 107 000c 9942     		cmp	r1, r3
+ 108 000e 09D2     		bcs	.L9
+  67:main.c        ****         }
+ 109              		.loc 1 67 0
+ 110 0010 0180     		strh	r1, [r0]	@ movhi
+ 111 0012 7047     		bx	lr
+ 112              	.L10:
+  70:main.c        ****         *actualPW -= speed;
+ 113              		.loc 1 70 0
+ 114 0014 8B42     		cmp	r3, r1
+ 115 0016 05D9     		bls	.L9
+  71:main.c        ****         if (*actualPW < targetPW) {
+ 116              		.loc 1 71 0
+ 117 0018 9B1A     		subs	r3, r3, r2
+ 118 001a 9BB2     		uxth	r3, r3
+ 119 001c 0380     		strh	r3, [r0]	@ movhi
+  72:main.c        ****             *actualPW = targetPW;
+ 120              		.loc 1 72 0
+ 121 001e 9942     		cmp	r1, r3
+ 122 0020 00D9     		bls	.L9
+  73:main.c        ****         }
+ 123              		.loc 1 73 0
+ 124 0022 0180     		strh	r1, [r0]	@ movhi
+ 125              	.L9:
+ 126 0024 7047     		bx	lr
+ 127              		.cfi_endproc
+ 128              	.LFE64:
+ 129              		.size	UpdateServoPWM, .-UpdateServoPWM
+ 130 0026 00BF     		.section	.text.milliseconds,"ax",%progbits
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 5
+
+
+ 131              		.align	2
+ 132              		.global	milliseconds
+ 133              		.thumb
+ 134              		.thumb_func
+ 135              		.type	milliseconds, %function
+ 136              	milliseconds:
+ 137              	.LFB65:
+  78:main.c        ****     return ms_counter;
+ 138              		.loc 1 78 0
+ 139              		.cfi_startproc
+ 140              		@ args = 0, pretend = 0, frame = 0
+ 141              		@ frame_needed = 0, uses_anonymous_args = 0
+ 142              		@ link register save eliminated.
+  80:main.c        **** 
+ 143              		.loc 1 80 0
+ 144 0000 014B     		ldr	r3, .L13
+ 145 0002 5888     		ldrh	r0, [r3, #2]
+ 146 0004 7047     		bx	lr
+ 147              	.L14:
+ 148 0006 00BF     		.align	2
+ 149              	.L13:
+ 150 0008 00000000 		.word	.LANCHOR0
+ 151              		.cfi_endproc
+ 152              	.LFE65:
+ 153              		.size	milliseconds, .-milliseconds
+ 154              		.section	.text.main,"ax",%progbits
+ 155              		.align	2
+ 156              		.global	main
+ 157              		.thumb
+ 158              		.thumb_func
+ 159              		.type	main, %function
+ 160              	main:
+ 161              	.LFB63:
+  36:main.c        ****     CyGlobalIntEnable;
+ 162              		.loc 1 36 0
+ 163              		.cfi_startproc
+ 164              		@ Volatile: function does not return.
+ 165              		@ args = 0, pretend = 0, frame = 0
+ 166              		@ frame_needed = 0, uses_anonymous_args = 0
+ 167 0000 08B5     		push	{r3, lr}
+ 168              		.cfi_def_cfa_offset 8
+ 169              		.cfi_offset 3, -8
+ 170              		.cfi_offset 14, -4
+  37:main.c        **** 
+ 171              		.loc 1 37 0
+ 172              		.syntax unified
+ 173              	@ 37 "main.c" 1
+ 174 0002 62B6     		CPSIE   i
+ 175              	@ 0 "" 2
+  39:main.c        ****     Button_isr_StartEx(my_button_isr);
+ 176              		.loc 1 39 0
+ 177              		.thumb
+ 178              		.syntax unified
+ 179 0004 FFF7FEFF 		bl	PWM_1_Start
+ 180              	.LVL3:
+  40:main.c        ****     PWM_ctrl_StartEx(my_PWM_isr);
+ 181              		.loc 1 40 0
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 6
+
+
+ 182 0008 1F48     		ldr	r0, .L20
+ 183 000a FFF7FEFF 		bl	Button_isr_StartEx
+ 184              	.LVL4:
+  41:main.c        ****     PWM_1_WriteCompare(actualPW);
+ 185              		.loc 1 41 0
+ 186 000e 1F48     		ldr	r0, .L20+4
+ 187 0010 FFF7FEFF 		bl	PWM_ctrl_StartEx
+ 188              	.LVL5:
+  42:main.c        **** 
+ 189              		.loc 1 42 0
+ 190 0014 1E4B     		ldr	r3, .L20+8
+ 191 0016 1888     		ldrh	r0, [r3]
+ 192 0018 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 193              	.LVL6:
+ 194              	.L17:
+  45:main.c        ****             button_flag = 0;
+ 195              		.loc 1 45 0
+ 196 001c 1D4B     		ldr	r3, .L20+12
+ 197 001e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 198 0020 13F0FF0F 		tst	r3, #255
+ 199 0024 1BD0     		beq	.L16
+  46:main.c        ****             if (milliseconds() >= DEBOUNCE_TIME_MS) {
+ 200              		.loc 1 46 0
+ 201 0026 0022     		movs	r2, #0
+ 202 0028 1A4B     		ldr	r3, .L20+12
+ 203 002a 1A70     		strb	r2, [r3]
+  47:main.c        ****                 ms_counter = 0;
+ 204              		.loc 1 47 0
+ 205 002c FFF7FEFF 		bl	milliseconds
+ 206              	.LVL7:
+ 207 0030 C728     		cmp	r0, #199
+ 208 0032 14D9     		bls	.L16
+  48:main.c        ****                 current_position = (current_position + 1) % 5;
+ 209              		.loc 1 48 0
+ 210 0034 0022     		movs	r2, #0
+ 211 0036 174B     		ldr	r3, .L20+12
+ 212 0038 5A80     		strh	r2, [r3, #2]	@ movhi
+  49:main.c        ****                 targetPW = servo_positions[current_position];
+ 213              		.loc 1 49 0
+ 214 003a 1549     		ldr	r1, .L20+8
+ 215 003c 8A78     		ldrb	r2, [r1, #2]	@ zero_extendqisi2
+ 216 003e 0132     		adds	r2, r2, #1
+ 217 0040 154B     		ldr	r3, .L20+16
+ 218 0042 83FB0230 		smull	r3, r0, r3, r2
+ 219 0046 D317     		asrs	r3, r2, #31
+ 220 0048 C3EB6003 		rsb	r3, r3, r0, asr #1
+ 221 004c 03EB8303 		add	r3, r3, r3, lsl #2
+ 222 0050 D31A     		subs	r3, r2, r3
+ 223 0052 DBB2     		uxtb	r3, r3
+ 224 0054 8B70     		strb	r3, [r1, #2]
+  50:main.c        ****             }    
+ 225              		.loc 1 50 0
+ 226 0056 01EB4303 		add	r3, r1, r3, lsl #1
+ 227 005a 9B88     		ldrh	r3, [r3, #4]
+ 228 005c CB81     		strh	r3, [r1, #14]	@ movhi
+ 229              	.L16:
+  54:main.c        ****             pwm_flag = 0;
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 7
+
+
+ 230              		.loc 1 54 0
+ 231 005e 0D4B     		ldr	r3, .L20+12
+ 232 0060 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 233 0062 13F0FF0F 		tst	r3, #255
+ 234 0066 D9D0     		beq	.L17
+  55:main.c        ****             ms_counter += 20;
+ 235              		.loc 1 55 0
+ 236 0068 0A4B     		ldr	r3, .L20+12
+ 237 006a 0022     		movs	r2, #0
+ 238 006c 5A70     		strb	r2, [r3, #1]
+  56:main.c        ****             UpdateServoPWM(&actualPW, targetPW, turnSpeed);
+ 239              		.loc 1 56 0
+ 240 006e 5A88     		ldrh	r2, [r3, #2]
+ 241 0070 1432     		adds	r2, r2, #20
+ 242 0072 5A80     		strh	r2, [r3, #2]	@ movhi
+  57:main.c        ****             PWM_1_WriteCompare(actualPW);
+ 243              		.loc 1 57 0
+ 244 0074 064C     		ldr	r4, .L20+8
+ 245 0076 227C     		ldrb	r2, [r4, #16]	@ zero_extendqisi2
+ 246 0078 E189     		ldrh	r1, [r4, #14]
+ 247 007a 2046     		mov	r0, r4
+ 248 007c FFF7FEFF 		bl	UpdateServoPWM
+ 249              	.LVL8:
+  58:main.c        ****         }    
+ 250              		.loc 1 58 0
+ 251 0080 2088     		ldrh	r0, [r4]
+ 252 0082 FFF7FEFF 		bl	PWM_1_WriteCompare
+ 253              	.LVL9:
+ 254 0086 C9E7     		b	.L17
+ 255              	.L21:
+ 256              		.align	2
+ 257              	.L20:
+ 258 0088 00000000 		.word	my_button_isr
+ 259 008c 00000000 		.word	my_PWM_isr
+ 260 0090 00000000 		.word	.LANCHOR1
+ 261 0094 00000000 		.word	.LANCHOR0
+ 262 0098 67666666 		.word	1717986919
+ 263              		.cfi_endproc
+ 264              	.LFE63:
+ 265              		.size	main, .-main
+ 266              		.global	actualPW
+ 267              		.global	targetPW
+ 268              		.global	turnSpeed
+ 269              		.global	current_position
+ 270              		.global	servo_positions
+ 271              		.global	pwm_flag
+ 272              		.global	button_flag
+ 273              		.global	ms_counter
+ 274              		.data
+ 275              		.align	2
+ 276              		.set	.LANCHOR1,. + 0
+ 277              		.type	actualPW, %object
+ 278              		.size	actualPW, 2
+ 279              	actualPW:
+ 280 0000 DC05     		.short	1500
+ 281              		.type	current_position, %object
+ 282              		.size	current_position, 1
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 8
+
+
+ 283              	current_position:
+ 284 0002 02       		.byte	2
+ 285 0003 00       		.space	1
+ 286              		.type	servo_positions, %object
+ 287              		.size	servo_positions, 10
+ 288              	servo_positions:
+ 289 0004 E803     		.short	1000
+ 290 0006 E204     		.short	1250
+ 291 0008 DC05     		.short	1500
+ 292 000a D606     		.short	1750
+ 293 000c D007     		.short	2000
+ 294              		.type	targetPW, %object
+ 295              		.size	targetPW, 2
+ 296              	targetPW:
+ 297 000e DC05     		.short	1500
+ 298              		.type	turnSpeed, %object
+ 299              		.size	turnSpeed, 1
+ 300              	turnSpeed:
+ 301 0010 05       		.byte	5
+ 302              		.bss
+ 303              		.align	1
+ 304              		.set	.LANCHOR0,. + 0
+ 305              		.type	button_flag, %object
+ 306              		.size	button_flag, 1
+ 307              	button_flag:
+ 308 0000 00       		.space	1
+ 309              		.type	pwm_flag, %object
+ 310              		.size	pwm_flag, 1
+ 311              	pwm_flag:
+ 312 0001 00       		.space	1
+ 313              		.type	ms_counter, %object
+ 314              		.size	ms_counter, 2
+ 315              	ms_counter:
+ 316 0002 0000     		.space	2
+ 317              		.text
+ 318              	.Letext0:
+ 319              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 320              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 321              		.file 4 "Generated_Source\\PSoC5/core_cm3.h"
+ 322              		.file 5 "Generated_Source\\PSoC5/Button.h"
+ 323              		.file 6 "Generated_Source\\PSoC5/PWM_1.h"
+ 324              		.file 7 "Generated_Source\\PSoC5/Button_isr.h"
+ 325              		.file 8 "Generated_Source\\PSoC5/PWM_ctrl.h"
+ 326              		.section	.debug_info,"",%progbits
+ 327              	.Ldebug_info0:
+ 328 0000 D3020000 		.4byte	0x2d3
+ 329 0004 0400     		.2byte	0x4
+ 330 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 331 000a 04       		.byte	0x4
+ 332 000b 01       		.uleb128 0x1
+ 333 000c A6000000 		.4byte	.LASF39
+ 334 0010 0C       		.byte	0xc
+ 335 0011 41020000 		.4byte	.LASF40
+ 336 0015 5E000000 		.4byte	.LASF41
+ 337 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 338 001d 00000000 		.4byte	0
+ 339 0021 00000000 		.4byte	.Ldebug_line0
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 9
+
+
+ 340 0025 02       		.uleb128 0x2
+ 341 0026 01       		.byte	0x1
+ 342 0027 06       		.byte	0x6
+ 343 0028 A6020000 		.4byte	.LASF0
+ 344 002c 03       		.uleb128 0x3
+ 345 002d 19000000 		.4byte	.LASF3
+ 346 0031 02       		.byte	0x2
+ 347 0032 1D       		.byte	0x1d
+ 348 0033 37000000 		.4byte	0x37
+ 349 0037 02       		.uleb128 0x2
+ 350 0038 01       		.byte	0x1
+ 351 0039 08       		.byte	0x8
+ 352 003a 98000000 		.4byte	.LASF1
+ 353 003e 02       		.uleb128 0x2
+ 354 003f 02       		.byte	0x2
+ 355 0040 05       		.byte	0x5
+ 356 0041 67020000 		.4byte	.LASF2
+ 357 0045 03       		.uleb128 0x3
+ 358 0046 70010000 		.4byte	.LASF4
+ 359 004a 02       		.byte	0x2
+ 360 004b 2B       		.byte	0x2b
+ 361 004c 50000000 		.4byte	0x50
+ 362 0050 02       		.uleb128 0x2
+ 363 0051 02       		.byte	0x2
+ 364 0052 07       		.byte	0x7
+ 365 0053 3D000000 		.4byte	.LASF5
+ 366 0057 03       		.uleb128 0x3
+ 367 0058 33000000 		.4byte	.LASF6
+ 368 005c 02       		.byte	0x2
+ 369 005d 3F       		.byte	0x3f
+ 370 005e 62000000 		.4byte	0x62
+ 371 0062 02       		.uleb128 0x2
+ 372 0063 04       		.byte	0x4
+ 373 0064 05       		.byte	0x5
+ 374 0065 88020000 		.4byte	.LASF7
+ 375 0069 02       		.uleb128 0x2
+ 376 006a 04       		.byte	0x4
+ 377 006b 07       		.byte	0x7
+ 378 006c 45010000 		.4byte	.LASF8
+ 379 0070 02       		.uleb128 0x2
+ 380 0071 08       		.byte	0x8
+ 381 0072 05       		.byte	0x5
+ 382 0073 00000000 		.4byte	.LASF9
+ 383 0077 02       		.uleb128 0x2
+ 384 0078 08       		.byte	0x8
+ 385 0079 07       		.byte	0x7
+ 386 007a B3010000 		.4byte	.LASF10
+ 387 007e 04       		.uleb128 0x4
+ 388 007f 04       		.byte	0x4
+ 389 0080 05       		.byte	0x5
+ 390 0081 696E7400 		.ascii	"int\000"
+ 391 0085 02       		.uleb128 0x2
+ 392 0086 04       		.byte	0x4
+ 393 0087 07       		.byte	0x7
+ 394 0088 91010000 		.4byte	.LASF11
+ 395 008c 03       		.uleb128 0x3
+ 396 008d CA010000 		.4byte	.LASF12
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 10
+
+
+ 397 0091 03       		.byte	0x3
+ 398 0092 18       		.byte	0x18
+ 399 0093 2C000000 		.4byte	0x2c
+ 400 0097 03       		.uleb128 0x3
+ 401 0098 71020000 		.4byte	.LASF13
+ 402 009c 03       		.byte	0x3
+ 403 009d 24       		.byte	0x24
+ 404 009e 45000000 		.4byte	0x45
+ 405 00a2 03       		.uleb128 0x3
+ 406 00a3 50000000 		.4byte	.LASF14
+ 407 00a7 03       		.byte	0x3
+ 408 00a8 2C       		.byte	0x2c
+ 409 00a9 57000000 		.4byte	0x57
+ 410 00ad 02       		.uleb128 0x2
+ 411 00ae 04       		.byte	0x4
+ 412 00af 04       		.byte	0x4
+ 413 00b0 58000000 		.4byte	.LASF15
+ 414 00b4 02       		.uleb128 0x2
+ 415 00b5 08       		.byte	0x8
+ 416 00b6 04       		.byte	0x4
+ 417 00b7 7B010000 		.4byte	.LASF16
+ 418 00bb 02       		.uleb128 0x2
+ 419 00bc 01       		.byte	0x1
+ 420 00bd 08       		.byte	0x8
+ 421 00be 48020000 		.4byte	.LASF17
+ 422 00c2 02       		.uleb128 0x2
+ 423 00c3 08       		.byte	0x8
+ 424 00c4 04       		.byte	0x4
+ 425 00c5 9A020000 		.4byte	.LASF18
+ 426 00c9 02       		.uleb128 0x2
+ 427 00ca 04       		.byte	0x4
+ 428 00cb 07       		.byte	0x7
+ 429 00cc 0C020000 		.4byte	.LASF19
+ 430 00d0 05       		.uleb128 0x5
+ 431 00d1 8C000000 		.4byte	0x8c
+ 432 00d5 06       		.uleb128 0x6
+ 433 00d6 7A020000 		.4byte	.LASF20
+ 434 00da 01       		.byte	0x1
+ 435 00db 52       		.byte	0x52
+ 436 00dc 00000000 		.4byte	.LFB66
+ 437 00e0 14000000 		.4byte	.LFE66-.LFB66
+ 438 00e4 01       		.uleb128 0x1
+ 439 00e5 9C       		.byte	0x9c
+ 440 00e6 F4000000 		.4byte	0xf4
+ 441 00ea 07       		.uleb128 0x7
+ 442 00eb 06000000 		.4byte	.LVL0
+ 443 00ef 94020000 		.4byte	0x294
+ 444 00f3 00       		.byte	0
+ 445 00f4 06       		.uleb128 0x6
+ 446 00f5 5C020000 		.4byte	.LASF21
+ 447 00f9 01       		.byte	0x1
+ 448 00fa 57       		.byte	0x57
+ 449 00fb 00000000 		.4byte	.LFB67
+ 450 00ff 18000000 		.4byte	.LFE67-.LFB67
+ 451 0103 01       		.uleb128 0x1
+ 452 0104 9C       		.byte	0x9c
+ 453 0105 13010000 		.4byte	0x113
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 11
+
+
+ 454 0109 07       		.uleb128 0x7
+ 455 010a 06000000 		.4byte	.LVL1
+ 456 010e 9F020000 		.4byte	0x29f
+ 457 0112 00       		.byte	0
+ 458 0113 06       		.uleb128 0x6
+ 459 0114 4D020000 		.4byte	.LASF22
+ 460 0118 01       		.byte	0x1
+ 461 0119 3F       		.byte	0x3f
+ 462 011a 00000000 		.4byte	.LFB64
+ 463 011e 26000000 		.4byte	.LFE64-.LFB64
+ 464 0122 01       		.uleb128 0x1
+ 465 0123 9C       		.byte	0x9c
+ 466 0124 50010000 		.4byte	0x150
+ 467 0128 08       		.uleb128 0x8
+ 468 0129 C5020000 		.4byte	.LASF23
+ 469 012d 01       		.byte	0x1
+ 470 012e 3F       		.byte	0x3f
+ 471 012f 50010000 		.4byte	0x150
+ 472 0133 01       		.uleb128 0x1
+ 473 0134 50       		.byte	0x50
+ 474 0135 08       		.uleb128 0x8
+ 475 0136 91020000 		.4byte	.LASF24
+ 476 013a 01       		.byte	0x1
+ 477 013b 3F       		.byte	0x3f
+ 478 013c 97000000 		.4byte	0x97
+ 479 0140 01       		.uleb128 0x1
+ 480 0141 51       		.byte	0x51
+ 481 0142 08       		.uleb128 0x8
+ 482 0143 06020000 		.4byte	.LASF25
+ 483 0147 01       		.byte	0x1
+ 484 0148 3F       		.byte	0x3f
+ 485 0149 8C000000 		.4byte	0x8c
+ 486 014d 01       		.uleb128 0x1
+ 487 014e 52       		.byte	0x52
+ 488 014f 00       		.byte	0
+ 489 0150 09       		.uleb128 0x9
+ 490 0151 04       		.byte	0x4
+ 491 0152 97000000 		.4byte	0x97
+ 492 0156 0A       		.uleb128 0xa
+ 493 0157 E8010000 		.4byte	.LASF42
+ 494 015b 01       		.byte	0x1
+ 495 015c 4E       		.byte	0x4e
+ 496 015d 97000000 		.4byte	0x97
+ 497 0161 00000000 		.4byte	.LFB65
+ 498 0165 0C000000 		.4byte	.LFE65-.LFB65
+ 499 0169 01       		.uleb128 0x1
+ 500 016a 9C       		.byte	0x9c
+ 501 016b 0B       		.uleb128 0xb
+ 502 016c 82010000 		.4byte	.LASF43
+ 503 0170 01       		.byte	0x1
+ 504 0171 24       		.byte	0x24
+ 505 0172 7E000000 		.4byte	0x7e
+ 506 0176 00000000 		.4byte	.LFB63
+ 507 017a 9C000000 		.4byte	.LFE63-.LFB63
+ 508 017e 01       		.uleb128 0x1
+ 509 017f 9C       		.byte	0x9c
+ 510 0180 EB010000 		.4byte	0x1eb
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 12
+
+
+ 511 0184 07       		.uleb128 0x7
+ 512 0185 08000000 		.4byte	.LVL3
+ 513 0189 AA020000 		.4byte	0x2aa
+ 514 018d 0C       		.uleb128 0xc
+ 515 018e 0E000000 		.4byte	.LVL4
+ 516 0192 B5020000 		.4byte	0x2b5
+ 517 0196 A4010000 		.4byte	0x1a4
+ 518 019a 0D       		.uleb128 0xd
+ 519 019b 01       		.uleb128 0x1
+ 520 019c 50       		.byte	0x50
+ 521 019d 05       		.uleb128 0x5
+ 522 019e 03       		.byte	0x3
+ 523 019f 00000000 		.4byte	my_button_isr
+ 524 01a3 00       		.byte	0
+ 525 01a4 0C       		.uleb128 0xc
+ 526 01a5 14000000 		.4byte	.LVL5
+ 527 01a9 C0020000 		.4byte	0x2c0
+ 528 01ad BB010000 		.4byte	0x1bb
+ 529 01b1 0D       		.uleb128 0xd
+ 530 01b2 01       		.uleb128 0x1
+ 531 01b3 50       		.byte	0x50
+ 532 01b4 05       		.uleb128 0x5
+ 533 01b5 03       		.byte	0x3
+ 534 01b6 00000000 		.4byte	my_PWM_isr
+ 535 01ba 00       		.byte	0
+ 536 01bb 07       		.uleb128 0x7
+ 537 01bc 1C000000 		.4byte	.LVL6
+ 538 01c0 CB020000 		.4byte	0x2cb
+ 539 01c4 07       		.uleb128 0x7
+ 540 01c5 30000000 		.4byte	.LVL7
+ 541 01c9 56010000 		.4byte	0x156
+ 542 01cd 0C       		.uleb128 0xc
+ 543 01ce 80000000 		.4byte	.LVL8
+ 544 01d2 13010000 		.4byte	0x113
+ 545 01d6 E1010000 		.4byte	0x1e1
+ 546 01da 0D       		.uleb128 0xd
+ 547 01db 01       		.uleb128 0x1
+ 548 01dc 50       		.byte	0x50
+ 549 01dd 02       		.uleb128 0x2
+ 550 01de 74       		.byte	0x74
+ 551 01df 00       		.sleb128 0
+ 552 01e0 00       		.byte	0
+ 553 01e1 07       		.uleb128 0x7
+ 554 01e2 86000000 		.4byte	.LVL9
+ 555 01e6 CB020000 		.4byte	0x2cb
+ 556 01ea 00       		.byte	0
+ 557 01eb 0E       		.uleb128 0xe
+ 558 01ec 63010000 		.4byte	.LASF26
+ 559 01f0 04       		.byte	0x4
+ 560 01f1 1207     		.2byte	0x712
+ 561 01f3 F7010000 		.4byte	0x1f7
+ 562 01f7 05       		.uleb128 0x5
+ 563 01f8 A2000000 		.4byte	0xa2
+ 564 01fc 0F       		.uleb128 0xf
+ 565 01fd 0E000000 		.4byte	.LASF27
+ 566 0201 01       		.byte	0x1
+ 567 0202 12       		.byte	0x12
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 13
+
+
+ 568 0203 97000000 		.4byte	0x97
+ 569 0207 05       		.uleb128 0x5
+ 570 0208 03       		.byte	0x3
+ 571 0209 00000000 		.4byte	ms_counter
+ 572 020d 0F       		.uleb128 0xf
+ 573 020e 9E010000 		.4byte	.LASF28
+ 574 0212 01       		.byte	0x1
+ 575 0213 18       		.byte	0x18
+ 576 0214 D0000000 		.4byte	0xd0
+ 577 0218 05       		.uleb128 0x5
+ 578 0219 03       		.byte	0x3
+ 579 021a 00000000 		.4byte	button_flag
+ 580 021e 0F       		.uleb128 0xf
+ 581 021f AA010000 		.4byte	.LASF29
+ 582 0223 01       		.byte	0x1
+ 583 0224 19       		.byte	0x19
+ 584 0225 D0000000 		.4byte	0xd0
+ 585 0229 05       		.uleb128 0x5
+ 586 022a 03       		.byte	0x3
+ 587 022b 00000000 		.4byte	pwm_flag
+ 588 022f 10       		.uleb128 0x10
+ 589 0230 97000000 		.4byte	0x97
+ 590 0234 3F020000 		.4byte	0x23f
+ 591 0238 11       		.uleb128 0x11
+ 592 0239 C9000000 		.4byte	0xc9
+ 593 023d 04       		.byte	0x4
+ 594 023e 00       		.byte	0
+ 595 023f 0F       		.uleb128 0xf
+ 596 0240 23000000 		.4byte	.LASF30
+ 597 0244 01       		.byte	0x1
+ 598 0245 1C       		.byte	0x1c
+ 599 0246 2F020000 		.4byte	0x22f
+ 600 024a 05       		.uleb128 0x5
+ 601 024b 03       		.byte	0x3
+ 602 024c 00000000 		.4byte	servo_positions
+ 603 0250 0F       		.uleb128 0xf
+ 604 0251 34010000 		.4byte	.LASF31
+ 605 0255 01       		.byte	0x1
+ 606 0256 1D       		.byte	0x1d
+ 607 0257 8C000000 		.4byte	0x8c
+ 608 025b 05       		.uleb128 0x5
+ 609 025c 03       		.byte	0x3
+ 610 025d 00000000 		.4byte	current_position
+ 611 0261 0F       		.uleb128 0xf
+ 612 0262 87010000 		.4byte	.LASF32
+ 613 0266 01       		.byte	0x1
+ 614 0267 1E       		.byte	0x1e
+ 615 0268 8C000000 		.4byte	0x8c
+ 616 026c 05       		.uleb128 0x5
+ 617 026d 03       		.byte	0x3
+ 618 026e 00000000 		.4byte	turnSpeed
+ 619 0272 0F       		.uleb128 0xf
+ 620 0273 91020000 		.4byte	.LASF24
+ 621 0277 01       		.byte	0x1
+ 622 0278 1F       		.byte	0x1f
+ 623 0279 97000000 		.4byte	0x97
+ 624 027d 05       		.uleb128 0x5
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 14
+
+
+ 625 027e 03       		.byte	0x3
+ 626 027f 00000000 		.4byte	targetPW
+ 627 0283 0F       		.uleb128 0xf
+ 628 0284 C5020000 		.4byte	.LASF23
+ 629 0288 01       		.byte	0x1
+ 630 0289 20       		.byte	0x20
+ 631 028a 97000000 		.4byte	0x97
+ 632 028e 05       		.uleb128 0x5
+ 633 028f 03       		.byte	0x3
+ 634 0290 00000000 		.4byte	actualPW
+ 635 0294 12       		.uleb128 0x12
+ 636 0295 D2010000 		.4byte	.LASF33
+ 637 0299 D2010000 		.4byte	.LASF33
+ 638 029d 05       		.byte	0x5
+ 639 029e 2B       		.byte	0x2b
+ 640 029f 12       		.uleb128 0x12
+ 641 02a0 28020000 		.4byte	.LASF34
+ 642 02a4 28020000 		.4byte	.LASF34
+ 643 02a8 06       		.byte	0x6
+ 644 02a9 97       		.byte	0x97
+ 645 02aa 12       		.uleb128 0x12
+ 646 02ab 57010000 		.4byte	.LASF35
+ 647 02af 57010000 		.4byte	.LASF35
+ 648 02b3 06       		.byte	0x6
+ 649 02b4 92       		.byte	0x92
+ 650 02b5 12       		.uleb128 0x12
+ 651 02b6 B2020000 		.4byte	.LASF36
+ 652 02ba B2020000 		.4byte	.LASF36
+ 653 02be 07       		.byte	0x7
+ 654 02bf 18       		.byte	0x18
+ 655 02c0 12       		.uleb128 0x12
+ 656 02c1 F5010000 		.4byte	.LASF37
+ 657 02c5 F5010000 		.4byte	.LASF37
+ 658 02c9 08       		.byte	0x8
+ 659 02ca 18       		.byte	0x18
+ 660 02cb 12       		.uleb128 0x12
+ 661 02cc 15020000 		.4byte	.LASF38
+ 662 02d0 15020000 		.4byte	.LASF38
+ 663 02d4 06       		.byte	0x6
+ 664 02d5 C3       		.byte	0xc3
+ 665 02d6 00       		.byte	0
+ 666              		.section	.debug_abbrev,"",%progbits
+ 667              	.Ldebug_abbrev0:
+ 668 0000 01       		.uleb128 0x1
+ 669 0001 11       		.uleb128 0x11
+ 670 0002 01       		.byte	0x1
+ 671 0003 25       		.uleb128 0x25
+ 672 0004 0E       		.uleb128 0xe
+ 673 0005 13       		.uleb128 0x13
+ 674 0006 0B       		.uleb128 0xb
+ 675 0007 03       		.uleb128 0x3
+ 676 0008 0E       		.uleb128 0xe
+ 677 0009 1B       		.uleb128 0x1b
+ 678 000a 0E       		.uleb128 0xe
+ 679 000b 55       		.uleb128 0x55
+ 680 000c 17       		.uleb128 0x17
+ 681 000d 11       		.uleb128 0x11
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 15
+
+
+ 682 000e 01       		.uleb128 0x1
+ 683 000f 10       		.uleb128 0x10
+ 684 0010 17       		.uleb128 0x17
+ 685 0011 00       		.byte	0
+ 686 0012 00       		.byte	0
+ 687 0013 02       		.uleb128 0x2
+ 688 0014 24       		.uleb128 0x24
+ 689 0015 00       		.byte	0
+ 690 0016 0B       		.uleb128 0xb
+ 691 0017 0B       		.uleb128 0xb
+ 692 0018 3E       		.uleb128 0x3e
+ 693 0019 0B       		.uleb128 0xb
+ 694 001a 03       		.uleb128 0x3
+ 695 001b 0E       		.uleb128 0xe
+ 696 001c 00       		.byte	0
+ 697 001d 00       		.byte	0
+ 698 001e 03       		.uleb128 0x3
+ 699 001f 16       		.uleb128 0x16
+ 700 0020 00       		.byte	0
+ 701 0021 03       		.uleb128 0x3
+ 702 0022 0E       		.uleb128 0xe
+ 703 0023 3A       		.uleb128 0x3a
+ 704 0024 0B       		.uleb128 0xb
+ 705 0025 3B       		.uleb128 0x3b
+ 706 0026 0B       		.uleb128 0xb
+ 707 0027 49       		.uleb128 0x49
+ 708 0028 13       		.uleb128 0x13
+ 709 0029 00       		.byte	0
+ 710 002a 00       		.byte	0
+ 711 002b 04       		.uleb128 0x4
+ 712 002c 24       		.uleb128 0x24
+ 713 002d 00       		.byte	0
+ 714 002e 0B       		.uleb128 0xb
+ 715 002f 0B       		.uleb128 0xb
+ 716 0030 3E       		.uleb128 0x3e
+ 717 0031 0B       		.uleb128 0xb
+ 718 0032 03       		.uleb128 0x3
+ 719 0033 08       		.uleb128 0x8
+ 720 0034 00       		.byte	0
+ 721 0035 00       		.byte	0
+ 722 0036 05       		.uleb128 0x5
+ 723 0037 35       		.uleb128 0x35
+ 724 0038 00       		.byte	0
+ 725 0039 49       		.uleb128 0x49
+ 726 003a 13       		.uleb128 0x13
+ 727 003b 00       		.byte	0
+ 728 003c 00       		.byte	0
+ 729 003d 06       		.uleb128 0x6
+ 730 003e 2E       		.uleb128 0x2e
+ 731 003f 01       		.byte	0x1
+ 732 0040 3F       		.uleb128 0x3f
+ 733 0041 19       		.uleb128 0x19
+ 734 0042 03       		.uleb128 0x3
+ 735 0043 0E       		.uleb128 0xe
+ 736 0044 3A       		.uleb128 0x3a
+ 737 0045 0B       		.uleb128 0xb
+ 738 0046 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 16
+
+
+ 739 0047 0B       		.uleb128 0xb
+ 740 0048 27       		.uleb128 0x27
+ 741 0049 19       		.uleb128 0x19
+ 742 004a 11       		.uleb128 0x11
+ 743 004b 01       		.uleb128 0x1
+ 744 004c 12       		.uleb128 0x12
+ 745 004d 06       		.uleb128 0x6
+ 746 004e 40       		.uleb128 0x40
+ 747 004f 18       		.uleb128 0x18
+ 748 0050 9742     		.uleb128 0x2117
+ 749 0052 19       		.uleb128 0x19
+ 750 0053 01       		.uleb128 0x1
+ 751 0054 13       		.uleb128 0x13
+ 752 0055 00       		.byte	0
+ 753 0056 00       		.byte	0
+ 754 0057 07       		.uleb128 0x7
+ 755 0058 898201   		.uleb128 0x4109
+ 756 005b 00       		.byte	0
+ 757 005c 11       		.uleb128 0x11
+ 758 005d 01       		.uleb128 0x1
+ 759 005e 31       		.uleb128 0x31
+ 760 005f 13       		.uleb128 0x13
+ 761 0060 00       		.byte	0
+ 762 0061 00       		.byte	0
+ 763 0062 08       		.uleb128 0x8
+ 764 0063 05       		.uleb128 0x5
+ 765 0064 00       		.byte	0
+ 766 0065 03       		.uleb128 0x3
+ 767 0066 0E       		.uleb128 0xe
+ 768 0067 3A       		.uleb128 0x3a
+ 769 0068 0B       		.uleb128 0xb
+ 770 0069 3B       		.uleb128 0x3b
+ 771 006a 0B       		.uleb128 0xb
+ 772 006b 49       		.uleb128 0x49
+ 773 006c 13       		.uleb128 0x13
+ 774 006d 02       		.uleb128 0x2
+ 775 006e 18       		.uleb128 0x18
+ 776 006f 00       		.byte	0
+ 777 0070 00       		.byte	0
+ 778 0071 09       		.uleb128 0x9
+ 779 0072 0F       		.uleb128 0xf
+ 780 0073 00       		.byte	0
+ 781 0074 0B       		.uleb128 0xb
+ 782 0075 0B       		.uleb128 0xb
+ 783 0076 49       		.uleb128 0x49
+ 784 0077 13       		.uleb128 0x13
+ 785 0078 00       		.byte	0
+ 786 0079 00       		.byte	0
+ 787 007a 0A       		.uleb128 0xa
+ 788 007b 2E       		.uleb128 0x2e
+ 789 007c 00       		.byte	0
+ 790 007d 3F       		.uleb128 0x3f
+ 791 007e 19       		.uleb128 0x19
+ 792 007f 03       		.uleb128 0x3
+ 793 0080 0E       		.uleb128 0xe
+ 794 0081 3A       		.uleb128 0x3a
+ 795 0082 0B       		.uleb128 0xb
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 17
+
+
+ 796 0083 3B       		.uleb128 0x3b
+ 797 0084 0B       		.uleb128 0xb
+ 798 0085 27       		.uleb128 0x27
+ 799 0086 19       		.uleb128 0x19
+ 800 0087 49       		.uleb128 0x49
+ 801 0088 13       		.uleb128 0x13
+ 802 0089 11       		.uleb128 0x11
+ 803 008a 01       		.uleb128 0x1
+ 804 008b 12       		.uleb128 0x12
+ 805 008c 06       		.uleb128 0x6
+ 806 008d 40       		.uleb128 0x40
+ 807 008e 18       		.uleb128 0x18
+ 808 008f 9742     		.uleb128 0x2117
+ 809 0091 19       		.uleb128 0x19
+ 810 0092 00       		.byte	0
+ 811 0093 00       		.byte	0
+ 812 0094 0B       		.uleb128 0xb
+ 813 0095 2E       		.uleb128 0x2e
+ 814 0096 01       		.byte	0x1
+ 815 0097 3F       		.uleb128 0x3f
+ 816 0098 19       		.uleb128 0x19
+ 817 0099 03       		.uleb128 0x3
+ 818 009a 0E       		.uleb128 0xe
+ 819 009b 3A       		.uleb128 0x3a
+ 820 009c 0B       		.uleb128 0xb
+ 821 009d 3B       		.uleb128 0x3b
+ 822 009e 0B       		.uleb128 0xb
+ 823 009f 27       		.uleb128 0x27
+ 824 00a0 19       		.uleb128 0x19
+ 825 00a1 49       		.uleb128 0x49
+ 826 00a2 13       		.uleb128 0x13
+ 827 00a3 8701     		.uleb128 0x87
+ 828 00a5 19       		.uleb128 0x19
+ 829 00a6 11       		.uleb128 0x11
+ 830 00a7 01       		.uleb128 0x1
+ 831 00a8 12       		.uleb128 0x12
+ 832 00a9 06       		.uleb128 0x6
+ 833 00aa 40       		.uleb128 0x40
+ 834 00ab 18       		.uleb128 0x18
+ 835 00ac 9742     		.uleb128 0x2117
+ 836 00ae 19       		.uleb128 0x19
+ 837 00af 01       		.uleb128 0x1
+ 838 00b0 13       		.uleb128 0x13
+ 839 00b1 00       		.byte	0
+ 840 00b2 00       		.byte	0
+ 841 00b3 0C       		.uleb128 0xc
+ 842 00b4 898201   		.uleb128 0x4109
+ 843 00b7 01       		.byte	0x1
+ 844 00b8 11       		.uleb128 0x11
+ 845 00b9 01       		.uleb128 0x1
+ 846 00ba 31       		.uleb128 0x31
+ 847 00bb 13       		.uleb128 0x13
+ 848 00bc 01       		.uleb128 0x1
+ 849 00bd 13       		.uleb128 0x13
+ 850 00be 00       		.byte	0
+ 851 00bf 00       		.byte	0
+ 852 00c0 0D       		.uleb128 0xd
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 18
+
+
+ 853 00c1 8A8201   		.uleb128 0x410a
+ 854 00c4 00       		.byte	0
+ 855 00c5 02       		.uleb128 0x2
+ 856 00c6 18       		.uleb128 0x18
+ 857 00c7 9142     		.uleb128 0x2111
+ 858 00c9 18       		.uleb128 0x18
+ 859 00ca 00       		.byte	0
+ 860 00cb 00       		.byte	0
+ 861 00cc 0E       		.uleb128 0xe
+ 862 00cd 34       		.uleb128 0x34
+ 863 00ce 00       		.byte	0
+ 864 00cf 03       		.uleb128 0x3
+ 865 00d0 0E       		.uleb128 0xe
+ 866 00d1 3A       		.uleb128 0x3a
+ 867 00d2 0B       		.uleb128 0xb
+ 868 00d3 3B       		.uleb128 0x3b
+ 869 00d4 05       		.uleb128 0x5
+ 870 00d5 49       		.uleb128 0x49
+ 871 00d6 13       		.uleb128 0x13
+ 872 00d7 3F       		.uleb128 0x3f
+ 873 00d8 19       		.uleb128 0x19
+ 874 00d9 3C       		.uleb128 0x3c
+ 875 00da 19       		.uleb128 0x19
+ 876 00db 00       		.byte	0
+ 877 00dc 00       		.byte	0
+ 878 00dd 0F       		.uleb128 0xf
+ 879 00de 34       		.uleb128 0x34
+ 880 00df 00       		.byte	0
+ 881 00e0 03       		.uleb128 0x3
+ 882 00e1 0E       		.uleb128 0xe
+ 883 00e2 3A       		.uleb128 0x3a
+ 884 00e3 0B       		.uleb128 0xb
+ 885 00e4 3B       		.uleb128 0x3b
+ 886 00e5 0B       		.uleb128 0xb
+ 887 00e6 49       		.uleb128 0x49
+ 888 00e7 13       		.uleb128 0x13
+ 889 00e8 3F       		.uleb128 0x3f
+ 890 00e9 19       		.uleb128 0x19
+ 891 00ea 02       		.uleb128 0x2
+ 892 00eb 18       		.uleb128 0x18
+ 893 00ec 00       		.byte	0
+ 894 00ed 00       		.byte	0
+ 895 00ee 10       		.uleb128 0x10
+ 896 00ef 01       		.uleb128 0x1
+ 897 00f0 01       		.byte	0x1
+ 898 00f1 49       		.uleb128 0x49
+ 899 00f2 13       		.uleb128 0x13
+ 900 00f3 01       		.uleb128 0x1
+ 901 00f4 13       		.uleb128 0x13
+ 902 00f5 00       		.byte	0
+ 903 00f6 00       		.byte	0
+ 904 00f7 11       		.uleb128 0x11
+ 905 00f8 21       		.uleb128 0x21
+ 906 00f9 00       		.byte	0
+ 907 00fa 49       		.uleb128 0x49
+ 908 00fb 13       		.uleb128 0x13
+ 909 00fc 2F       		.uleb128 0x2f
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 19
+
+
+ 910 00fd 0B       		.uleb128 0xb
+ 911 00fe 00       		.byte	0
+ 912 00ff 00       		.byte	0
+ 913 0100 12       		.uleb128 0x12
+ 914 0101 2E       		.uleb128 0x2e
+ 915 0102 00       		.byte	0
+ 916 0103 3F       		.uleb128 0x3f
+ 917 0104 19       		.uleb128 0x19
+ 918 0105 3C       		.uleb128 0x3c
+ 919 0106 19       		.uleb128 0x19
+ 920 0107 6E       		.uleb128 0x6e
+ 921 0108 0E       		.uleb128 0xe
+ 922 0109 03       		.uleb128 0x3
+ 923 010a 0E       		.uleb128 0xe
+ 924 010b 3A       		.uleb128 0x3a
+ 925 010c 0B       		.uleb128 0xb
+ 926 010d 3B       		.uleb128 0x3b
+ 927 010e 0B       		.uleb128 0xb
+ 928 010f 00       		.byte	0
+ 929 0110 00       		.byte	0
+ 930 0111 00       		.byte	0
+ 931              		.section	.debug_aranges,"",%progbits
+ 932 0000 3C000000 		.4byte	0x3c
+ 933 0004 0200     		.2byte	0x2
+ 934 0006 00000000 		.4byte	.Ldebug_info0
+ 935 000a 04       		.byte	0x4
+ 936 000b 00       		.byte	0
+ 937 000c 0000     		.2byte	0
+ 938 000e 0000     		.2byte	0
+ 939 0010 00000000 		.4byte	.LFB66
+ 940 0014 14000000 		.4byte	.LFE66-.LFB66
+ 941 0018 00000000 		.4byte	.LFB67
+ 942 001c 18000000 		.4byte	.LFE67-.LFB67
+ 943 0020 00000000 		.4byte	.LFB64
+ 944 0024 26000000 		.4byte	.LFE64-.LFB64
+ 945 0028 00000000 		.4byte	.LFB65
+ 946 002c 0C000000 		.4byte	.LFE65-.LFB65
+ 947 0030 00000000 		.4byte	.LFB63
+ 948 0034 9C000000 		.4byte	.LFE63-.LFB63
+ 949 0038 00000000 		.4byte	0
+ 950 003c 00000000 		.4byte	0
+ 951              		.section	.debug_ranges,"",%progbits
+ 952              	.Ldebug_ranges0:
+ 953 0000 00000000 		.4byte	.LFB66
+ 954 0004 14000000 		.4byte	.LFE66
+ 955 0008 00000000 		.4byte	.LFB67
+ 956 000c 18000000 		.4byte	.LFE67
+ 957 0010 00000000 		.4byte	.LFB64
+ 958 0014 26000000 		.4byte	.LFE64
+ 959 0018 00000000 		.4byte	.LFB65
+ 960 001c 0C000000 		.4byte	.LFE65
+ 961 0020 00000000 		.4byte	.LFB63
+ 962 0024 9C000000 		.4byte	.LFE63
+ 963 0028 00000000 		.4byte	0
+ 964 002c 00000000 		.4byte	0
+ 965              		.section	.debug_line,"",%progbits
+ 966              	.Ldebug_line0:
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 20
+
+
+ 967 0000 E5010000 		.section	.debug_str,"MS",%progbits,1
+ 967      02007401 
+ 967      00000201 
+ 967      FB0E0D00 
+ 967      01010101 
+ 968              	.LASF9:
+ 969 0000 6C6F6E67 		.ascii	"long long int\000"
+ 969      206C6F6E 
+ 969      6720696E 
+ 969      7400
+ 970              	.LASF27:
+ 971 000e 6D735F63 		.ascii	"ms_counter\000"
+ 971      6F756E74 
+ 971      657200
+ 972              	.LASF3:
+ 973 0019 5F5F7569 		.ascii	"__uint8_t\000"
+ 973      6E74385F 
+ 973      7400
+ 974              	.LASF30:
+ 975 0023 73657276 		.ascii	"servo_positions\000"
+ 975      6F5F706F 
+ 975      73697469 
+ 975      6F6E7300 
+ 976              	.LASF6:
+ 977 0033 5F5F696E 		.ascii	"__int32_t\000"
+ 977      7433325F 
+ 977      7400
+ 978              	.LASF5:
+ 979 003d 73686F72 		.ascii	"short unsigned int\000"
+ 979      7420756E 
+ 979      7369676E 
+ 979      65642069 
+ 979      6E7400
+ 980              	.LASF14:
+ 981 0050 696E7433 		.ascii	"int32_t\000"
+ 981      325F7400 
+ 982              	.LASF15:
+ 983 0058 666C6F61 		.ascii	"float\000"
+ 983      7400
+ 984              	.LASF41:
+ 985 005e 433A5C63 		.ascii	"C:\\code\\PSOC\\PSoCLabs\\Excercise2\\johannesPSoC5"
+ 985      6F64655C 
+ 985      50534F43 
+ 985      5C50536F 
+ 985      434C6162 
+ 986 008c 53657276 		.ascii	"Servo.cydsn\000"
+ 986      6F2E6379 
+ 986      64736E00 
+ 987              	.LASF1:
+ 988 0098 756E7369 		.ascii	"unsigned char\000"
+ 988      676E6564 
+ 988      20636861 
+ 988      7200
+ 989              	.LASF39:
+ 990 00a6 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 990      43313120 
+ 990      352E342E 
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 21
+
+
+ 990      31203230 
+ 990      31363036 
+ 991 00d9 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 991      20726576 
+ 991      6973696F 
+ 991      6E203233 
+ 991      37373135 
+ 992 010c 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 992      66756E63 
+ 992      74696F6E 
+ 992      2D736563 
+ 992      74696F6E 
+ 993              	.LASF31:
+ 994 0134 63757272 		.ascii	"current_position\000"
+ 994      656E745F 
+ 994      706F7369 
+ 994      74696F6E 
+ 994      00
+ 995              	.LASF8:
+ 996 0145 6C6F6E67 		.ascii	"long unsigned int\000"
+ 996      20756E73 
+ 996      69676E65 
+ 996      6420696E 
+ 996      7400
+ 997              	.LASF35:
+ 998 0157 50574D5F 		.ascii	"PWM_1_Start\000"
+ 998      315F5374 
+ 998      61727400 
+ 999              	.LASF26:
+ 1000 0163 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1000      52784275 
+ 1000      66666572 
+ 1000      00
+ 1001              	.LASF4:
+ 1002 0170 5F5F7569 		.ascii	"__uint16_t\000"
+ 1002      6E743136 
+ 1002      5F7400
+ 1003              	.LASF16:
+ 1004 017b 646F7562 		.ascii	"double\000"
+ 1004      6C6500
+ 1005              	.LASF43:
+ 1006 0182 6D61696E 		.ascii	"main\000"
+ 1006      00
+ 1007              	.LASF32:
+ 1008 0187 7475726E 		.ascii	"turnSpeed\000"
+ 1008      53706565 
+ 1008      6400
+ 1009              	.LASF11:
+ 1010 0191 756E7369 		.ascii	"unsigned int\000"
+ 1010      676E6564 
+ 1010      20696E74 
+ 1010      00
+ 1011              	.LASF28:
+ 1012 019e 62757474 		.ascii	"button_flag\000"
+ 1012      6F6E5F66 
+ 1012      6C616700 
+ 1013              	.LASF29:
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 22
+
+
+ 1014 01aa 70776D5F 		.ascii	"pwm_flag\000"
+ 1014      666C6167 
+ 1014      00
+ 1015              	.LASF10:
+ 1016 01b3 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1016      206C6F6E 
+ 1016      6720756E 
+ 1016      7369676E 
+ 1016      65642069 
+ 1017              	.LASF12:
+ 1018 01ca 75696E74 		.ascii	"uint8_t\000"
+ 1018      385F7400 
+ 1019              	.LASF33:
+ 1020 01d2 42757474 		.ascii	"Button_ClearInterrupt\000"
+ 1020      6F6E5F43 
+ 1020      6C656172 
+ 1020      496E7465 
+ 1020      72727570 
+ 1021              	.LASF42:
+ 1022 01e8 6D696C6C 		.ascii	"milliseconds\000"
+ 1022      69736563 
+ 1022      6F6E6473 
+ 1022      00
+ 1023              	.LASF37:
+ 1024 01f5 50574D5F 		.ascii	"PWM_ctrl_StartEx\000"
+ 1024      6374726C 
+ 1024      5F537461 
+ 1024      72744578 
+ 1024      00
+ 1025              	.LASF25:
+ 1026 0206 73706565 		.ascii	"speed\000"
+ 1026      6400
+ 1027              	.LASF19:
+ 1028 020c 73697A65 		.ascii	"sizetype\000"
+ 1028      74797065 
+ 1028      00
+ 1029              	.LASF38:
+ 1030 0215 50574D5F 		.ascii	"PWM_1_WriteCompare\000"
+ 1030      315F5772 
+ 1030      69746543 
+ 1030      6F6D7061 
+ 1030      726500
+ 1031              	.LASF34:
+ 1032 0228 50574D5F 		.ascii	"PWM_1_ReadStatusRegister\000"
+ 1032      315F5265 
+ 1032      61645374 
+ 1032      61747573 
+ 1032      52656769 
+ 1033              	.LASF40:
+ 1034 0241 6D61696E 		.ascii	"main.c\000"
+ 1034      2E6300
+ 1035              	.LASF17:
+ 1036 0248 63686172 		.ascii	"char\000"
+ 1036      00
+ 1037              	.LASF22:
+ 1038 024d 55706461 		.ascii	"UpdateServoPWM\000"
+ 1038      74655365 
+ARM GAS  C:\Users\jajuv\AppData\Local\Temp\ccugZHRf.s 			page 23
+
+
+ 1038      72766F50 
+ 1038      574D00
+ 1039              	.LASF21:
+ 1040 025c 6D795F50 		.ascii	"my_PWM_isr\000"
+ 1040      574D5F69 
+ 1040      737200
+ 1041              	.LASF2:
+ 1042 0267 73686F72 		.ascii	"short int\000"
+ 1042      7420696E 
+ 1042      7400
+ 1043              	.LASF13:
+ 1044 0271 75696E74 		.ascii	"uint16_t\000"
+ 1044      31365F74 
+ 1044      00
+ 1045              	.LASF20:
+ 1046 027a 6D795F62 		.ascii	"my_button_isr\000"
+ 1046      7574746F 
+ 1046      6E5F6973 
+ 1046      7200
+ 1047              	.LASF7:
+ 1048 0288 6C6F6E67 		.ascii	"long int\000"
+ 1048      20696E74 
+ 1048      00
+ 1049              	.LASF24:
+ 1050 0291 74617267 		.ascii	"targetPW\000"
+ 1050      65745057 
+ 1050      00
+ 1051              	.LASF18:
+ 1052 029a 6C6F6E67 		.ascii	"long double\000"
+ 1052      20646F75 
+ 1052      626C6500 
+ 1053              	.LASF0:
+ 1054 02a6 7369676E 		.ascii	"signed char\000"
+ 1054      65642063 
+ 1054      68617200 
+ 1055              	.LASF36:
+ 1056 02b2 42757474 		.ascii	"Button_isr_StartEx\000"
+ 1056      6F6E5F69 
+ 1056      73725F53 
+ 1056      74617274 
+ 1056      457800
+ 1057              	.LASF23:
+ 1058 02c5 61637475 		.ascii	"actualPW\000"
+ 1058      616C5057 
+ 1058      00
+ 1059              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
