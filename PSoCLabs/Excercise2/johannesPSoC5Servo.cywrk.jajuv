@@ -41,6 +41,17 @@
 <v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_Out</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
+<v>johannesPSoC5Servo</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\TopDesign</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\Pins</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\Analog</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\Clocks</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\Interrupts</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\DMA</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\System</v>
+<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\Directives</v>
 <v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\Flash Security</v>
 <v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.cydwr\EEPROM</v>
 <v>johannesPSoC5Servo\johannesPSoC5Servo\Header Files</v>
@@ -65,17 +76,6 @@
 <v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_1\PWM_1.h</v>
 <v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_1\PWM_1_PM.c</v>
 <v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_ctrl</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_ctrl\PWM_ctrl.c</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_ctrl\PWM_ctrl.h</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_Out</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_Out\PWM_Out.c</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_Out\PWM_Out.h</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\PWM_Out\PWM_Out_aliases.h</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\cycodeshareexport.ld</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\cycodeshareimport.ld</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\cycodeshareimport.scat</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\cydevice.h</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\Generated_Source\PSoC5\cydevice_trm.h</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -130,34 +130,6 @@
 <VisibleNodeIds>
 <v>johannesPSoC5Servo</v>
 <v>johannesPSoC5Servo\johannesPSoC5Servo</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\Button.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\Button_isr.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\LED.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_1.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_1_PM.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_ctrl.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_Out.lst</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\johannesPSoC5Servo.elf</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\johannesPSoC5Servo.hex</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\CortexM3\ARM_GCC_541\Debug\johannesPSoC5Servo.map</v>
-<v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.gpdsc</v>
 <v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo.rpt</v>
 <v>johannesPSoC5Servo\johannesPSoC5Servo\johannesPSoC5Servo_timing.html</v>
 </VisibleNodeIds>

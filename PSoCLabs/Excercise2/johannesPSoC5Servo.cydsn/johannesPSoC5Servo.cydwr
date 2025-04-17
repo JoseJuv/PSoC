@@ -252,10 +252,10 @@
   <Group key="DWRInstGuidMapping">
     <Group key="Pin">
       <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="Button" />
-      <Data key="1816a53f-7a2c-4a51-a04c-eb25009d5962" value="Kill_Switch" />
+      <Data key="1816a53f-7a2c-4a51-a04c-eb25009d5962" value="Button" />
       <Data key="1425177d-0d0e-4468-8bcc-e638e5509a9b" value="Rx_1" />
       <Data key="a2796d69-0246-4b95-8a90-211538feb4e0" value="PWM_Out" />
-      <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="LED1" />
+      <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="LED" />
       <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="Tx_1" />
     </Group>
   </Group>
@@ -3360,7 +3360,7 @@
     </Group>
     <Group key="a2796d69-0246-4b95-8a90-211538feb4e0">
       <Group key="0">
-        <Data key="Port Format" value="1,6" />
+        <Data key="Port Format" value="2,0" />
       </Group>
     </Group>
     <Group key="e851a3b9-efb8-48be-bbb8-b303b216c393">

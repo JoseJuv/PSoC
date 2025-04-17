@@ -1,5 +1,5 @@
 -- Project:   johannesPSoC5Servo
--- Generated: 04/17/2025 02:30:00
+-- Generated: 04/17/2025 03:49:44
 -- PSoC Creator  4.2
 
 ENTITY johannesPSoC5Servo IS
@@ -77,7 +77,7 @@ ARCHITECTURE __DEFAULT__ OF johannesPSoC5Servo IS
     SIGNAL \PWM_1:PWMUDB:sP16:pwmdp:u1.sor__sig\ : bit;
     SIGNAL \PWM_1:PWMUDB:sP16:pwmdp:u1.cmsbo__sig\ : bit;
     ATTRIBUTE lib_model OF PWM_Out(0) : LABEL IS "iocell1";
-    ATTRIBUTE Location OF PWM_Out(0) : LABEL IS "P1[6]";
+    ATTRIBUTE Location OF PWM_Out(0) : LABEL IS "P2[0]";
     ATTRIBUTE lib_model OF Button(0) : LABEL IS "iocell2";
     ATTRIBUTE Location OF Button(0) : LABEL IS "P2[2]";
     ATTRIBUTE lib_model OF LED(0) : LABEL IS "iocell3";
