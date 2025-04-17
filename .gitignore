@@ -1,0 +1,40 @@
+# PSoC Creator build directories
+*.d
+*.dSYM
+*.bak
+*.swp
+*.obj
+*.elf
+*.map
+*.hex
+*.i
+*.pdb
+*.lib
+*.a
+*.out
+*.o
+*.dep
+*.pdb
+*.log
+*.xsvf
+
+# PSoC Creator project files that are machine-specific
+**/.project
+**/.settings
+**/.cproject
+**/Debug/
+**/Release/
+**/Debug_ARM/
+**/Release_ARM/
+**/GeneratedSource/
+
+# Mac and Linux system files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Generated files
+*.gdbinit
+*.user
