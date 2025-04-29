@@ -18,7 +18,7 @@
 *.log
 *.xsvf
 
-# PSoC Creator project files that are machine-specific
+# Machine-specific PSoC Creator project files
 **/.project
 **/.settings
 **/.cproject
@@ -27,13 +27,6 @@
 **/Debug_ARM/
 **/Release_ARM/
 **/GeneratedSource/
-
-# Mac and Linux system files
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
-*.swp
 
 # Generated files
 *.gdbinit
