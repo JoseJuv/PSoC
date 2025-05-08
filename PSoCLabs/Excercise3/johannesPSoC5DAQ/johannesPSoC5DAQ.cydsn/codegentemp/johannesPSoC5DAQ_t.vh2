@@ -1,5 +1,5 @@
 -- Project:   C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\johannesPSoC5DAQ.cyprj
--- Generated: 04/29/2025 21:14:50
+-- Generated: 05/08/2025 19:29:31
 -- PSoC Creator  4.2
 
 ENTITY johannesPSoC5DAQ IS
@@ -33,10 +33,10 @@ ARCHITECTURE __DEFAULT__ OF johannesPSoC5DAQ IS
     SIGNAL ClockBlock_XTAL : bit;
     SIGNAL ClockBlock_XTAL_32KHZ : bit;
     SIGNAL Net_110 : bit;
+    SIGNAL Net_143 : bit;
     SIGNAL Net_68 : bit;
     ATTRIBUTE placement_force OF Net_68 : SIGNAL IS "U(1,0,B)0";
     SIGNAL Net_73 : bit;
-    SIGNAL Net_82 : bit;
     SIGNAL Rx_1(0)__PA : bit;
     SIGNAL Tx_1(0)__PA : bit;
     SIGNAL Vin(0)__PA : bit;
@@ -936,7 +936,7 @@ BEGIN
     \ADC_DelSig_1:DSM\:dsmodcell
         GENERIC MAP(
             cy_registers => "",
-            resolution => 8)
+            resolution => 12)
         PORT MAP(
             aclock => \ClockBlock.aclk_glb_ff_0__sig\,
             modbitin_udb => open,
@@ -962,7 +962,7 @@ BEGIN
             int_type => "10",
             is_nmi => 0)
         PORT MAP(
-            interrupt => Net_82,
+            interrupt => Net_143,
             clock => ClockBlock_BUS_CLK);
 
     \ADC_DelSig_1:DEC\:decimatorcell
@@ -976,7 +976,7 @@ BEGIN
             mod_dat_0 => \ADC_DelSig_1:mod_dat_0\,
             ext_start => __ONE__,
             modrst => \ADC_DelSig_1:mod_reset\,
-            interrupt => Net_82);
+            interrupt => Net_143);
 
     __ONE__:macrocell
         GENERIC MAP(

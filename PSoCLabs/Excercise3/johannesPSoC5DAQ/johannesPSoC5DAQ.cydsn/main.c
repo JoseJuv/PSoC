@@ -12,7 +12,7 @@
 // Course: TX00DB04-3009 Date: 29/4/2025
 
 /* 
- * Uses a PTA4543 potentiometer to simulate a analog temperature sensor.
+ * Uses a LM35 analog sensor to capture the tempature.
  * Sum up ADC sample values, increment sample count and set second passed flag in interrupts
  * If second_passed flag true then calculate temperature and transmit it formatted as JSON.
  */
@@ -24,7 +24,7 @@
 #define TRUE   1
 
 volatile uint32_t sample_sum = 0;
-volatile uint32_t sample_count = 0;
+volatile uint16_t sample_count = 0;
 volatile uint8_t second_passed = 0;
 
 CY_ISR_PROTO(TIMER1_ISR);
@@ -66,7 +66,8 @@ int main(void)
             float temperature;
 
             average_adc = (float)sum / count;
-            temperature = average_adc * 0.1f;
+            uint16_t voltage = ADC_DelSig_1_CountsTo_mVolts(average_adc);
+            temperature = voltage / 10.00;
             send_JSON((uint16_t)average_adc, temperature);
             CyExitCriticalSection(interruptState);
         }
@@ -76,6 +77,9 @@ int main(void)
 CY_ISR(ADC_IRQHandler)
 {
     uint16_t adc_value = ADC_DelSig_1_GetResult16();
+    if(!adc_value){
+        return;
+    }
     sample_sum += adc_value;
     sample_count++;
 }
@@ -84,4 +88,3 @@ CY_ISR(TIMER1_ISR)
 {
     second_passed = 1;
 }
-/* [] END OF FILE */

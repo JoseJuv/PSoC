@@ -377,12 +377,32 @@
       <Data key="f9b69582-16c1-4837-86e7-ce971b04e59e/b7604721-db56-4477-98c2-8fae77869066" value="ADC_DelSig_1_Ext_CP_Clk" />
       <Data key="f9b69582-16c1-4837-86e7-ce971b04e59e/edd15f43-b66b-457b-be3a-5342345270c8" value="ADC_DelSig_1_theACLK" />
     </Group>
+    <Group key="Interrupt">
+      <Data key="5498f36a-0c2e-42d5-bb35-0f8295abf245" value="isr_Timer_1" />
+      <Data key="f9b69582-16c1-4837-86e7-ce971b04e59e/b6592af9-e743-4dfd-a597-27f9102033ee" value="ADC_DelSig_1_IRQ" />
+    </Group>
     <Group key="Pin">
       <Data key="89373ea0-d317-4130-bd17-5d3cefcdeec3/77253644-2d29-412d-87e5-52485cd7a6d7" value="LCD_LCDPort" />
       <Data key="89373ea0-d317-4130-bd17-5d3cefcdeec3/ed092b9b-d398-4703-be89-cebf998501f6" value="LCD_LCDPort" />
       <Data key="1425177d-0d0e-4468-8bcc-e638e5509a9b" value="Rx_1" />
       <Data key="cc3bcd7e-5dc0-48ea-9bf6-6aa082be1ada" value="Vin" />
       <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="Tx_1" />
+    </Group>
+  </Group>
+  <Group key="Interrupt">
+    <Group key="5498f36a-0c2e-42d5-bb35-0f8295abf245">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="1" />
+        <Data key="Vector" value="-1" />
+      </Group>
+    </Group>
+    <Group key="f9b69582-16c1-4837-86e7-ce971b04e59e/b6592af9-e743-4dfd-a597-27f9102033ee">
+      <Group key="CortexM3">
+        <Data key="Assigned" value="True" />
+        <Data key="Priority" value="0" />
+        <Data key="Vector" value="-1" />
+      </Group>
     </Group>
   </Group>
   <Group key="Pin2">

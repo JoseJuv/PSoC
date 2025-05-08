@@ -857,6 +857,13 @@ net Net_110
 	switch ":interrupt_idmux_0.interrupt_idmux_0__out==>:interrupt_0.interrupt"
 	term   ":interrupt_0.interrupt"
 end Net_110
+net Net_143
+	term   ":decimatorcell.interrupt"
+	switch ":decimatorcell.interrupt==>Stub-:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v20+:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v22"
+	switch "Stub-:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v20+:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v22==>:interrupt_idmux_29.in_0"
+	switch ":interrupt_idmux_29.interrupt_idmux_29__out==>:interrupt_29.interrupt"
+	term   ":interrupt_29.interrupt"
+end Net_143
 net Net_68
 	term   ":udb@[UDB=(1,0)]:pld1:mc0.q"
 	switch ":udb@[UDB=(1,0)]:pld1:mc0.q==>:udb@[UDB=(1,0)]:pld1:output_permute0.q_0"
@@ -872,13 +879,6 @@ net Net_68
 	switch ":ioport12:inputs2_mux.pin7__pin_input==>:ioport12:pin7.pin_input"
 	term   ":ioport12:pin7.pin_input"
 end Net_68
-net Net_82
-	term   ":decimatorcell.interrupt"
-	switch ":decimatorcell.interrupt==>Stub-:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v20+:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v22"
-	switch "Stub-:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v20+:dsiswitch_bottom@[DSI=(1,2)][side=bottom]:dsihc_bottom:v22==>:interrupt_idmux_29.in_0"
-	switch ":interrupt_idmux_29.interrupt_idmux_29__out==>:interrupt_29.interrupt"
-	term   ":interrupt_29.interrupt"
-end Net_82
 net \ADC_DelSig_1:Net_93_local\
 	term   ":clockblockcell.dclk_1"
 	switch ":clockblockcell.dclk_1==>Stub-:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v36+:dsiswitch_bottom@[DSI=(1,1)][side=bottom]:dsihc_bottom:v38"

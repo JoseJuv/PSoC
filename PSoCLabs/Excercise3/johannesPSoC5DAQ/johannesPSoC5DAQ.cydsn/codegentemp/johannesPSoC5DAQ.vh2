@@ -2,7 +2,7 @@
 --	Conversion of johannesPSoC5DAQ.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Tue Apr 29 21:14:47 2025
+--	Thu May 08 19:29:28 2025
 --
 
 USE cypress.cypress.all;
@@ -45,7 +45,7 @@ SIGNAL \ADC_DelSig_1:Net_245_0\ : bit;
 TERMINAL \ADC_DelSig_1:Net_352\ : bit;
 TERMINAL \ADC_DelSig_1:Net_257\ : bit;
 TERMINAL \ADC_DelSig_1:Net_249\ : bit;
-SIGNAL Net_82 : bit;
+SIGNAL Net_143 : bit;
 SIGNAL \ADC_DelSig_1:Net_250\ : bit;
 SIGNAL \ADC_DelSig_1:Net_252\ : bit;
 SIGNAL \ADC_DelSig_1:soc\ : bit;
@@ -588,7 +588,7 @@ Net_70D <= ((not \UART_1:BUART:reset_reg\ and \UART_1:BUART:tx_state_2\)
 		vout=>\ADC_DelSig_1:Net_20\);
 \ADC_DelSig_1:DSM\:cy_psoc3_ds_mod_v4_0
 	GENERIC MAP(cy_registers=>"",
-		resolution=>8)
+		resolution=>12)
 	PORT MAP(aclock=>\ADC_DelSig_1:Net_488\,
 		vplus=>Net_60,
 		vminus=>\ADC_DelSig_1:Net_520\,
@@ -644,13 +644,13 @@ Net_70D <= ((not \UART_1:BUART:reset_reg\ and \UART_1:BUART:tx_state_2\)
 \ADC_DelSig_1:IRQ\:cy_isr_v1_0
 	GENERIC MAP(int_type=>"10",
 		is_nmi=>'0')
-	PORT MAP(int_signal=>Net_82);
+	PORT MAP(int_signal=>Net_143);
 \ADC_DelSig_1:theACLK\:cy_clock_v1_0
 	GENERIC MAP(cy_registers=>"",
 		id=>"f9b69582-16c1-4837-86e7-ce971b04e59e/edd15f43-b66b-457b-be3a-5342345270c8",
 		source_clock_id=>"61737EF6-3B74-48f9-8B91-F7473A442AE7",
 		divisor=>0,
-		period=>"6250000000",
+		period=>"7812500000",
 		is_direct=>'0',
 		is_digital=>'0')
 	PORT MAP(clock_out=>\ADC_DelSig_1:Net_488\,
@@ -661,7 +661,7 @@ Net_70D <= ((not \UART_1:BUART:reset_reg\ and \UART_1:BUART:tx_state_2\)
 		mod_dat=>(\ADC_DelSig_1:mod_dat_3\, \ADC_DelSig_1:mod_dat_2\, \ADC_DelSig_1:mod_dat_1\, \ADC_DelSig_1:mod_dat_0\),
 		ext_start=>tmpOE__Vin_net_0,
 		mod_reset=>\ADC_DelSig_1:mod_reset\,
-		interrupt=>Net_82);
+		interrupt=>Net_143);
 Vin:cy_psoc3_pins_v1_10
 	GENERIC MAP(id=>"cc3bcd7e-5dc0-48ea-9bf6-6aa082be1ada",
 		drive_mode=>"000",
