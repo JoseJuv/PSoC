@@ -1,6 +1,6 @@
 -- ======================================================================
 -- johannesPSoC5DAQ01.ctl generated from johannesPSoC5DAQ01
--- 05/11/2025 at 20:11
+-- 05/11/2025 at 23:55
 -- This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 -- ======================================================================
 

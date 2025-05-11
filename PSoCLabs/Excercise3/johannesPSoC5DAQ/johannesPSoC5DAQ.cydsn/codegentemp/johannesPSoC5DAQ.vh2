@@ -2,7 +2,7 @@
 --	Conversion of johannesPSoC5DAQ.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Sun May 11 20:34:04 2025
+--	Sun May 11 20:49:44 2025
 --
 
 USE cypress.cypress.all;

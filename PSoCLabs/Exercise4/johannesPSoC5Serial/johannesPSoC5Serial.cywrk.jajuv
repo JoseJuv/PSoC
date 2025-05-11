@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="johannesPSoC5Serial\johannesPSoC5DAQ01\Source Files\main.c">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
 <ExpandedNodeIds>
 <v>johannesPSoC5Serial</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01</v>
@@ -32,27 +32,45 @@
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Header Files\cyapicallbacks.h</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Source Files</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Source Files\main.c</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
-<v>johannesPSoC5Serial</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\TopDesign</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\Pins</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\Analog</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\Clocks</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\Interrupts</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\DMA</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\System</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\Directives</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\Flash Security</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\johannesPSoC5DAQ01.cydwr\EEPROM</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Header Files</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Header Files\cyapicallbacks.h</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Source Files</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Source Files\main.c</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\ADC_DelSig_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\ADC_DelSig_1_AMux</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\ADC_DelSig_1_Ext_CP_Clk</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\ADC_DelSig_1_IRQ</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\ADC_DelSig_1_theACLK</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\Clock_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\Clock_2</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\cy_boot</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\CyClock_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\Em_EEPROM_Dynamic</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\I2C_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\isr_Timer_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\miso</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\RST_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\SCL_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\sclk</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\SDA_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\SPIM_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\ss</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\Timer_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\UART_1</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\UART_1_IntClock</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\Vin</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\cycodeshareexport.ld</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\cycodeshareimport.ld</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\cycodeshareimport.scat</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\cydevice.h</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\cydevice_trm.h</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\Generated_Source\PSoC5\cydevicegnu.inc</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 <CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
@@ -85,6 +103,7 @@
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_PM.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_theACLK.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_2.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
@@ -105,9 +124,15 @@
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_1_SLAVE.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\isr_Timer_1.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\miso.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\RST_1.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\SCL_1.lst</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\sclk.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\SDA_1.lst</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\SPIM_1.lst</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\SPIM_1_INT.lst</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\SPIM_1_PM.lst</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\ss.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\Timer_1.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\Timer_1_PM.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1.lst</v>
@@ -138,6 +163,7 @@
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_PM.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_DelSig_1_theACLK.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_1.lst</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock_2.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
@@ -158,7 +184,6 @@
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_1_SLAVE.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\isr_Timer_1.lst</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
-<v>johannesPSoC5Serial\johannesPSoC5DAQ01\CortexM3\ARM_GCC_541\Debug\Listing Files\RST_1.lst</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStates>
@@ -181,6 +206,7 @@
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\cy_pins_v2_20</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\I2C_v3_50.pdf</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\SPI_Master_v2_50.pdf</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Timer_v2_80.pdf</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\UART_v2_50.pdf</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\ZeroTerminal.pdf</v>
@@ -199,6 +225,7 @@
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\cy_pins_v2_20</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\I2C_v3_50.pdf</v>
+<v>johannesPSoC5Serial\johannesPSoC5DAQ01\SPI_Master_v2_50.pdf</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\Timer_v2_80.pdf</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\UART_v2_50.pdf</v>
 <v>johannesPSoC5Serial\johannesPSoC5DAQ01\ZeroTerminal.pdf</v>
@@ -207,6 +234,11 @@
 </TreeStatesV2>
 </CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
 </dataGuid>
+<dataGuid v="5f2be1a5-0687-4501-bb8c-cf21cb8211bf">
+<CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf type_name="CyDesigner.Common.ProjMgmt.GUI.CyBookmarkData" version="1">
+<indicators />
+</CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf>
+</dataGuid>
 </userData>
 </CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
 <Unloaded />
@@ -214,6 +246,8 @@
 <name v=".\johannesPSoC5DAQ01.cydsn\TopDesign\TopDesign.cysch" />
 <name v=".\johannesPSoC5DAQ01.cydsn\johannesPSoC5DAQ01.cydwr" />
 <name v=".\johannesPSoC5DAQ01.cydsn\main.c" />
+<name v=".\johannesPSoC5DAQ01.cydsn\Generated_Source\PSoC5\I2C_1_MASTER.c" />
+<name v=".\johannesPSoC5DAQ01.cydsn\Generated_Source\PSoC5\I2C_1.h" />
 </OpenDocs>
 <OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
 
@@ -221,7 +255,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="879, 518" SelectedTabbedMdiWindow="95186d9a-f29d-4d82-8098-7196cd07dca2"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="20f54e14-e87d-4d8f-8f48-35a7569eb25c" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\TopDesign\TopDesign.cysch" Guid="95186d9a-f29d-4d82-8098-7196cd07dca2" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\johannesPSoC5DAQ01.cydwr" Guid="fd3af823-564b-4e9f-a0df-c92528ff7dee" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\main.c" Guid="00d0c3bd-aafa-4e0f-9c5c-92032474f565" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="922, 518" SelectedTabbedMdiWindow="00d0c3bd-aafa-4e0f-9c5c-92032474f565"><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\TopDesign\TopDesign.cysch" Guid="95186d9a-f29d-4d82-8098-7196cd07dca2" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\johannesPSoC5DAQ01.cydwr" Guid="fd3af823-564b-4e9f-a0df-c92528ff7dee" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\main.c" Guid="00d0c3bd-aafa-4e0f-9c5c-92032474f565" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\Generated_Source\PSoC5\I2C_1_MASTER.c" Guid="ebc3854b-ae58-482b-bbaa-a595f47a1a99" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\Generated_Source\PSoC5\I2C_1.h" Guid="bb8463dd-fe2f-4e7a-ba5c-3ea251d43c60" /><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="20f54e14-e87d-4d8f-8f48-35a7569eb25c" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>

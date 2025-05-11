@@ -5,4 +5,4 @@ C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomp
 C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|eac39afc-231d-4a5c-890f-23c87a58ed57
 C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|a5752e71-1059-4acc-a783-363afc81cf95
 C:\Users\jajuv\OneDrive\Tiedostot\PSoC Creator\My Templates\johannesPSoC5DAQ.cydsn\johannesPSoC5DAQ.cyprj|f82fb713-d168-4019-8b05-fe4faac7db97
-C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\johannesPSoC5DAQ01.cyprj|d1b1bbdb-9fda-487d-99a1-09d96738ba80
+C:\code\PSOC\PSoCLabs\Exercise4\johannesPSoC5Serial\johannesPSoC5DAQ01.cydsn\johannesPSoC5DAQ01.cyprj|41c2cef1-8188-469c-8651-36dc66929d37

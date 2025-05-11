@@ -61,14 +61,14 @@ int main(void)
             sample_count = 0;
             sample_sum = 0;
             second_passed = 0;
-            
-            float average_adc;
-            float temperature;
+            CyExitCriticalSection(interruptState);
 
-            average_adc = (float)sum / count;
-            uint16_t voltage = ADC_DelSig_1_CountsTo_mVolts(average_adc);
-            temperature = voltage / 10.00;
-            send_JSON((uint16_t)average_adc, temperature);
+            if (count == 0) continue;
+
+            float avg_counts = (int16_t)(sum / count);
+            float temperature = (float)avg_counts / 10.0;
+
+            send_JSON((uint16_t)avg_counts, temperature);
             CyExitCriticalSection(interruptState);
         }
     }
