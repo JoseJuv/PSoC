@@ -1,0 +1,7 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|b329c42a-651c-42ba-84c2-5980d176c03e
+C:\Users\jajuv\OneDrive\Tiedostot\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|a043a5aa-bcd9-48ac-913c-ffe5ce15fb7f
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|39da38c0-f548-4347-bf85-b84495f40eb4
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|96812cc5-5f23-4219-abfc-0f11da0224ad
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|7f14c870-b1a7-4c23-8c6c-a3d8a2456998
+C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|60c94d34-2eaa-4a3b-8008-b89e8c26bc29
+C:\code\PSOC\PSoCLabs\Exercise5\johannesPSoC5OneWire\johannesPSoC5OneWire.cydsn\johannesPSoC5OneWire.cyprj|9f5212ba-b1da-48b6-9618-c2cb06d45f6c
