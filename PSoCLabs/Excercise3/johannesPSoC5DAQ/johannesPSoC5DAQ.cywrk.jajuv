@@ -13,7 +13,7 @@
 <v>Output</v>
 </TreeKeys>
 <TreeStates>
-<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="johannesPSoC5DAQ\johannesPSoC5DAQ\johannesPSoC5DAQ.cydwr\Clocks">
 <ExpandedNodeIds>
 <v>johannesPSoC5DAQ</v>
 <v>johannesPSoC5DAQ\johannesPSoC5DAQ</v>
@@ -232,7 +232,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="922, 510" SelectedTabbedMdiWindow="605c6b9a-3c04-452e-904e-5bf5f5c3044f"><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\TopDesign\TopDesign.cysch" Guid="c12495c4-2048-454b-abb3-c42c697932e0" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\johannesPSoC5DAQ.cydwr" Guid="de60eb44-77fb-41d1-9b2a-9d4b62a81df8" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\main.c" Guid="605c6b9a-3c04-452e-904e-5bf5f5c3044f" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\Generated_Source\PSoC5\ADC_DelSig_1.c" Guid="1d49bcb6-0096-4616-b8d1-3d406cc5c57e" /><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="20f54e14-e87d-4d8f-8f48-35a7569eb25c" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="881, 493" SelectedTabbedMdiWindow="c12495c4-2048-454b-abb3-c42c697932e0"><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\TopDesign\TopDesign.cysch" Guid="c12495c4-2048-454b-abb3-c42c697932e0" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\johannesPSoC5DAQ.cydwr" Guid="de60eb44-77fb-41d1-9b2a-9d4b62a81df8" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\main.c" Guid="605c6b9a-3c04-452e-904e-5bf5f5c3044f" /><DocumentWindow Key="C:\code\PSOC\PSoCLabs\Excercise3\johannesPSoC5DAQ\johannesPSoC5DAQ.cydsn\Generated_Source\PSoC5\ADC_DelSig_1.c" Guid="1d49bcb6-0096-4616-b8d1-3d406cc5c57e" /><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="20f54e14-e87d-4d8f-8f48-35a7569eb25c" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
